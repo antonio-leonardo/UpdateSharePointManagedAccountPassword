@@ -3,8 +3,11 @@ This is a Emergency Powershell Script that change any SharePoint Managed Account
 Bellow follow the needed sequence to be sucessful with this scripts; this scripts sequence was tested on large and/or complex Sharepoint Farms on versions 2010, 2013, 2016 without any impact and with 100% of sucess.
 
 Premisses:
+
 i) Execute all of these scripts as Farm Administrator Group user, with local machine administrator privilegies and SecurityAdmin on SQL Server SharePoint instance
+
 ii) Before start script sequence, delegate bypassing using this PowerShell instruction:
+
 ```powershell
 Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted
 ```
