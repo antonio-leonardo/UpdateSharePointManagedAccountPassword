@@ -22,8 +22,7 @@ ii) Before start script sequence, delegate bypassing using this PowerShell instr
 ```powershell
 Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted
 ```
-<br/>
-
+---------------
 #### 1) Gets the library for administration of Web Services / Servers:
 ```powershell
 Import-Module WebAdministration
