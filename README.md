@@ -4,7 +4,7 @@ Bellow follow the needed sequence to be sucessful with this scripts; this script
 
 ### Comments:
 
-i)This scripts execution effection is only on the local machine execution, this not propagate to all Farm Servers;
+i) This scripts execution effect is only on the local machine execution, this not propagate to all Farm Servers;
 
 ### Premises:
 
