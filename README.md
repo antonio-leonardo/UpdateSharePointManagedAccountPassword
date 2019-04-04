@@ -1,14 +1,18 @@
 # Update SharePoint Managed Account Password on: IIS, Windows Services and SharePoint Services
 This is a Emergency Powershell Script that change any SharePoint Managed Account User Password if, for some reason, it was not possible to synchronize user changes from Active Directory, like a password expiration and cannot be able to troubleshooting with another layers like Active Directory or Network Infrastructure.
-Bellow follow the needed sequence to be sucessful with this scripts; this scripts sequence was tested on several large and/or complex Sharepoint OnPremises Farms at versions 2010, 2013, 2016 without any impact and with 100% of success, on local server execution (not propagate to all farm servers).
+Bellow follow the needed sequence to be sucessful with this scripts; this scripts sequence was tested on several large and/or complex Sharepoint OnPremises Farms at versions 2010, 2013, 2016 without any impact and with 100% of success.
 
-Premises:
+### Comments:
+
+i)This scripts execution effection is only on the local machine execution, this not propagate to all Farm Servers;
+
+### Premises:
 
 i) To execute all of these scripts, the current user needs this privilegies bellow:
 
 	i.a)Belongs to Farm Administrator Group;
 	
-	i.b)local machine Administrator (on any SharePoint Farm server, but the script effect is on local machine execution);
+	i.b)local machine Administrator (on any SharePoint Farm server);
 	
 	i.c)SQL Server SecurityAdmin profile (on SharePoint database instance);
 	
@@ -18,6 +22,7 @@ ii) Before start script sequence, delegate bypassing using this PowerShell instr
 ```powershell
 Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted
 ```
+<br/>
 
 #### 1) Gets the library for administration of Web Services / Servers:
 ```powershell
