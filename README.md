@@ -101,5 +101,7 @@ if((Get-SPFarm).DefaultServiceAccount.Name -eq $serviceAccount)
 ```powershell
 iisreset /noforce
 ```
+----------------------
+## License
 
-That's all folks
+[View MIT license](https://github.com/antonio-leonardo/UpdateSharePointManagedAccountPassword/blob/master/LICENSE)
