@@ -8,17 +8,17 @@ i) This scripts execution effect is only on the local machine execution, this no
 
 ### Premises:
 
-i) To execute all of these scripts, the current user needs this privilegies bellow:
+ii) To execute all of these scripts, the current user needs this privilegies bellow:
 
-	i.a)Belongs to Farm Administrator Group;
+	ii.a)Belongs to Farm Administrator Group;
 	
-	i.b)local machine Administrator (on any SharePoint Farm server);
+	ii.b)local machine Administrator (on any SharePoint Farm server);
 	
-	i.c)SQL Server SecurityAdmin profile (on SharePoint database instance);
+	ii.c)SQL Server SecurityAdmin profile (on SharePoint database instance);
 	
-	i.d)db_owner on databases "SharePoint_Config" and "SharePoint_Admin_<any guid>";
+	ii.d)db_owner on databases "SharePoint_Config" and "SharePoint_Admin_<any guid>";
 
-ii) Before start script sequence, delegate bypassing using this PowerShell instruction:
+iii) Before start script sequence, delegate bypassing using this PowerShell instruction:
 ```powershell
 Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted
 ```
