@@ -35,12 +35,12 @@ $serviceAccount = Read-Host -Prompt "Please enter the user (in DOMAIN\username f
 
 #### 3) Gets the user password in Secure String [(Read-Host, Example 2)](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/read-host):
 ```powershell
-$servicePasswordSecure = Read-Host "Now, what is this user's password? Please enter (this field will be encrypted)." -AsSecureString
+$securePass = Read-Host "What's this user's password? This field will be encrypted:" -AsSecureString
 ```
 
 #### 4) Transforms the password into clean text [(System.Runtime.InteropServices.marshal, by Andrew Watt)](https://books.google.com.br/books?id=lAvsnA5Ua68C&pg=PA214&lpg=PA214&dq=powershell+runtime.interopservices.marshal&source=bl&ots=XXJ_kHBLb5&sig=ACfU3U1-O-dyDEaq6N2EM0NmTzsmN20caA&hl=pt-BR&sa=X&ved=2ahUKEwjPor7ngbbjAhUBH7kGHWwGDSQ4ChDoATAJegQIAxAB#v=onepage&q=powershell%20runtime.interopservices.marshal&f=false):
 ```powershell
-$servicePassPlainText = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($servicePasswordSecure))
+$plainTextPass = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePass))
 ```
 
 #### 5) Gets all Application Pools associated with the user [(Start-WebAppPool at Microsoft Docs)](https://docs.microsoft.com/en-us/powershell/module/webadminstration/start-webapppool):
@@ -53,7 +53,7 @@ $applicationPools = Get-ChildItem IIS:\AppPools | where { $_.processModel.userNa
 foreach($pool in $applicationPools)
 {
     $pool.processModel.userName = $serviceAccount
-    $pool.processModel.password = $servicePassPlainText
+    $pool.processModel.password = $plainTextPass
     $pool.processModel.identityType = 3
     $pool | Set-Item
 }
@@ -73,7 +73,7 @@ $shpServices = gwmi win32_service -computer $serverName | where {$_.StartName -e
 ```powershell
 foreach($service in $shpServices)
 {
-	$service.change($null,$null,$null,$null,$null,$null,$null,$servicePassPlainText)
+    $service.change($null,$null,$null,$null,$null,$null,$null,$plainTextPass)
 }
 ```
 
@@ -89,18 +89,22 @@ $managedAccount = Get-SPManagedAccount | where {$_.UserName -eq $serviceAccount}
 
 #### 12) Change user password in SharePoint [(Set-SPManagedAccount)](https://docs.microsoft.com/en-us/powershell/module/sharepoint-server/set-spmanagedaccount):
 ```powershell
-Set-SPManagedAccount -Identity $managedAccount -ExistingPassword $servicePasswordSecure –UseExistingPassword $true
+Set-SPManagedAccount -Identity $managedAccount -ExistingPassword $securePass –UseExistingPassword $true
 
 if((Get-SPFarm).DefaultServiceAccount.Name -eq $serviceAccount)
 {
-	stsadm.exe –o updatefarmcredentials –userlogin $serviceAccount –password $servicePassPlainText
+    stsadm.exe –o updatefarmcredentials –userlogin $serviceAccount –password $plainTextPass
 }
 ```
 
-#### 12) Restart IIS with no forcible:
+#### 13) Restart IIS with no forcible:
 ```powershell
 iisreset /noforce
 ```
+----------------------
+## Download
+
+[at my GitHub Gist](https://gist.github.com/antonio-leonardo/a86d2fc714e3a4a6b20f8559e1ba7ad0)
 ----------------------
 ## License
 
