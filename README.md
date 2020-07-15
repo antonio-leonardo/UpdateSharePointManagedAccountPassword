@@ -20,7 +20,7 @@ ii) To execute all of these scripts, the current user needs this privilegies bel
 
 iii) Before start script sequence, delegate bypassing using this PowerShell instruction [(Set-ExecutionPolicy at Microsoft Docs)](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy):
 ```powershell
-Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted
+Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted -Force
 ```
 ---------------
 #### 1) Gets the library for administration of Web Services / Servers [(WebAdministration at Microsoft Docs)](https://docs.microsoft.com/en-us/powershell/module/webadministration):
@@ -89,7 +89,7 @@ $managedAccount = Get-SPManagedAccount | where {$_.UserName -eq $serviceAccount}
 
 #### 12) Change user password in SharePoint [(Set-SPManagedAccount)](https://docs.microsoft.com/en-us/powershell/module/sharepoint-server/set-spmanagedaccount):
 ```powershell
-Set-SPManagedAccount -Identity $managedAccount -ExistingPassword $securePass –UseExistingPassword $true
+Set-SPManagedAccount -Identity $managedAccount -ExistingPassword $securePass –UseExistingPassword:$True -Confirm:$False 
 
 if((Get-SPFarm).DefaultServiceAccount.Name -eq $serviceAccount)
 {
