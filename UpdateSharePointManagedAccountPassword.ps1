@@ -1,11 +1,23 @@
 #########################################################################################################
+#########################################################################################################
 ############################### Author: Antonio Leonardo de Abreu Freire ################################
-################################ Email: antonio.leonardo@outlook.com.br #################################
-######### Microsoft Certified ID: 13271836, vide http://www.mycertprofile.com/Profile/1275790232 ########
+#### Microsoft Certified ID: 13271836, vide https://www.youracclaim.com/users/antonioleonardo/badges ####
 #########################################################################################################
 ## Update SharePoint Account Password on all Farm Layers: IIS, Windows Services and SharePoint Services #
 #########################################################################################################
 #########################################################################################################
+########### Don't Forget this Script Premisses! The current user to execute this script needs: ##########
+########### a)Belongs to Farm Administrator Group; ######################################################
+########### b)local machine Administrator (on any SharePoint Farm server); ##############################
+########### c)SQL Server SecurityAdmin profile (on SharePoint database instance); #######################
+########### d)db_owner on databases "SharePoint_Config" and "SharePoint_Admin_<any guid>"; ##############
+#########################################################################################################
+#########################################################################################################
+#########################################################################################################
+
+#Setting execution policy for current user is unrestricted, forcing to disable confirm dialog
+Write-Host "Setting execution policy for current user is unrestricted, forcing to disable confirm dialog."
+Set-Executionpolicy -Scope CurrentUser -ExecutionPolicy UnRestricted -Force 
 
 #Gets the library for administration of Web Services / Servers:
 Write-Host "Start routine for alterações de Senha do IIS, para o usuário de Serviços." -ForegroundColor Yellow
@@ -67,7 +79,7 @@ $managedAccount = Get-SPManagedAccount | where {$_.UserName -eq $serviceAccount}
 Write-Host "13-Gets the managed service user account in SharePoint." -ForegroundColor Green
 
 #Change user password in SharePoint:
-Set-SPManagedAccount -Identity $managedAccount -ExistingPassword $servicePasswordSecure –UseExistingPassword $true
+Set-SPManagedAccount -Identity $managedAccount -ExistingPassword $servicePasswordSecure  –UseExistingPassword:$true -Confirm:$False
 if((Get-SPFarm).DefaultServiceAccount.Name -eq $serviceAccount)
 {
 	stsadm.exe –o updatefarmcredentials –userlogin $serviceAccount –password $servicePassPlainText
